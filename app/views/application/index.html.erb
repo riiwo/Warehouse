@@ -1,0 +1,25 @@
+<% content_for :content do %>
+<div class="vertical-center">
+  <div class="col-sm-6 col-sm-offset-3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">Login</div>
+      <div class="panel-body">
+        <br>
+        <form action="POST">
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="username">Username</span>
+            <input type="text" class="form-control" placeholder="Username" aria-describedby="username">
+          </div>
+          <br>
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="password">Password</span>
+            <input type="password" class="form-control" placeholder="Password" aria-describedby="password">
+          </div>
+          <br>
+          <button class="btn btn-block btn-primary" type="submit" >LOG IN</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
