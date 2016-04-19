@@ -1,0 +1,28 @@
+<% content_for :content do %>
+    <div class="panel-heading">Listing Products</div>
+    <div class="row">
+      <br>
+      <div class="col-sm-12">
+        <% @products.each do |product| %>
+        <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="<%= product[:img] %>" alt="<%= product[:name] %>">
+            <div class="caption">
+              <h3 class="text-center"><%= product[:name] %></h3>
+              <p class="text-center"><%= product[:price]/100 %> EUR</p>
+              <br>
+              <div class="btn-group btn-group-justified" role="group">
+                <%= link_to 'Show', product, {:class => 'btn btn-info'} %>
+                <%= link_to 'Edit', edit_product_path(product), {:class => 'btn btn-warning'} %>
+                <%= link_to 'Destroy', product_path(product.id), 'data-method' => :delete, :class => 'btn btn-danger', :confirm => 'Are you sure ?' %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="panel-body">
+      <%= link_to 'New Product', new_product_path, class: 'btn btn-block btn-success' %>
+    </div>
+<% end %>

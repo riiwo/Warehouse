@@ -8,8 +8,39 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="container">
-  <%= yield :content %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">WareHouse</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/home">Home</a></li>
+        <li><%= link_to('Workers',{ action: 'index', controller: 'workers'}) %></li>
+        <li><%= link_to('Products',{ action: 'index', controller: 'products'}) %></li>
+        <li><%= link_to('Groups',{ action: 'index', controller: 'groups'}) %></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to(raw('<span class="glyphicon glyphicon-log-in"></span> Login'),{ action: 'login', controller: 'application'}) %></li>
+        <li><%= link_to(raw('<span class="glyphicon glyphicon-log-in"></span> Logout'),{ action: 'logout', controller: 'application'}) %></li>
+      </ul>
+    </div>
   </div>
+</nav>
+<div class="container">
+  <div class="vertical-center">
+    <div class="col-sm-12">
+      <%= render 'layouts/notice' %>
+      <div class="panel panel-default">
+        <%= yield :content %>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

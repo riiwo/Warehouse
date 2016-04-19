@@ -1,0 +1,8 @@
+<% content_for :content do %>
+  <div class="panel-heading">New Group</div>
+  <div class="panel-body">
+      <%= render 'form' %>
+      <br>
+      <%= link_to 'Back', groups_path, :class => 'btn btn-block btn-info' %>
+  </div>
+<% end %>

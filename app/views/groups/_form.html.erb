@@ -1,0 +1,23 @@
+<%= form_for(@group) do |f| %>
+  <%= f.text_field :name, :placeholder => 'Name', class: 'form-control'%>
+
+  <div class="field">
+    <%= f.collection_select 'product_ids', Product.all, :id, :name, class:'form-control' %>
+  </div>
+
+  <% if @group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+      <ul>
+      <% @group.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <br>
+  <div class="actions">
+    <%= f.submit :class => 'btn btn-block btn-success' %>
+  </div>
+<% end %>

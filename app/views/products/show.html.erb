@@ -1,0 +1,15 @@
+<% content_for :content do %>
+    <div class="panel-heading"><%= @product[:name] %></div>
+    <div class="panel-body">
+      <h1><%= @product[:name] %></h1>
+      <div class="thumbnail">
+        <img src="<%= @product[:img] %>" alt="<%= @product[:name] %>">
+        <div class="caption">
+          <p><%= @product[:description] %></p>
+          <h3>Price: <%= @product[:price] %></h3>
+        </div>
+      </div>
+      <%= link_to 'Edit', edit_product_path(@product), :class => 'btn btn-block btn-warning'%>
+      <%= link_to 'Back', products_path,:class => 'btn btn-block btn-info' %>
+    </div>
+<% end %>

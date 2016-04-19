@@ -1,5 +1,5 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * This is a manifest file that'll be compiled into application.scss, which will include all the files
  * listed below.
  *
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
@@ -12,12 +12,23 @@
  *
  *= require_tree .
  *= require_self
- *= require bootstrap.min
  */
-.vertical-center {
-    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-    min-height: 100vh; /* These two lines are counted as one :-)       */
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
-    display: flex;
-    align-items: center;
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.thumbnail a{
+  text-decoration: none;
+  color: black;
+}
+.thumbnail a:hover {
+  text-decoration: none;
+}
+.margin-left-10 {
+  margin-left: 10px;
 }

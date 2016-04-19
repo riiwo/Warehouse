@@ -1,0 +1,25 @@
+<%= form_for(@worker) do |f| %>
+    <%= f.text_field :username, :placeholder => 'Username', class: 'form-control'%>
+    <br>
+    <%= f.text_field :email, :placeholder => 'Email', class: 'form-control'%>
+    <br>
+    <%= f.password_field :password, :placeholder => 'Password', class: 'form-control'%>
+    <br>
+    <%= f.password_field :password_confirmation, :placeholder => 'Confirm Password', class: 'form-control'%>
+    <br>
+  <% if @worker.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@worker.errors.count, "error") %> prohibited this worker from being saved:</h2>
+
+      <ul>
+      <% @worker.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit :class => 'btn btn-block btn-success'%>
+  </div>
+<% end %>

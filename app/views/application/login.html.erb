@@ -1,0 +1,21 @@
+<% content_for :content do %>
+    <div class="panel-heading">Sign In</div>
+    <div class="panel-body">
+      <br>
+      <%= form_for(:worker, :url => {:controller => 'application', :action => 'login'}) do %>
+          <%= text_field_tag :username_or_email,"", :placeholder => 'Email or Username', class: 'form-control' %>
+          <br>
+          <%= password_field_tag :login_password,"", :placeholder => 'Password', class: 'form-control' %>
+          <br>
+          <%= submit_tag('Log In', class: 'btn btn-block btn-success') %>
+      <% end %>
+      <br>
+      <% flash.each do |key, value| %>
+          <div class="alert alert-<%=key%>" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">#{key}:</span>
+            <%= value %>
+          </div>
+      <% end %>
+    </div>
+<% end %>

@@ -1,0 +1,18 @@
+<% content_for :content do %>
+      <div class="panel-heading">Listing Groups</div>
+      <table class="table">
+      <% @groups.each do |group| %>
+        <tr>
+          <td colspan="5"><%= group[:name] %></td>
+          <td colspan="1">
+            <%= link_to 'Destroy', group_path(group.id), 'data-method' => :delete, :class => 'btn btn-danger pull-right margin-left-10', :confirm => 'Are you sure ?' %>
+            <%= link_to 'Edit', edit_group_path(group), {:class => 'btn btn-warning pull-right margin-left-10'} %>
+            <%= link_to 'Show', group, {:class => 'btn btn-info pull-right margin-left-10'} %>
+          </td>
+        </tr>
+      <% end %>
+      </table>
+      <div class="panel-body">
+        <%= link_to 'New Group', new_group_path, class: 'btn btn-block btn-success' %>
+      </div>
+<% end %>
