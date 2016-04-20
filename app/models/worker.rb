@@ -3,7 +3,9 @@ class Worker < ActiveRecord::Base
   EMAIL_REGEX = /\A(\S+)@(.+)\.(\S+)\z/
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
-  validates :password, :confirmation => true, :length => { :in => 6..200 }
+  validates :password, :confirmation => true, length: {minimum: 5, maximum: 120}, on: :create, presence: true
+  validates :password, length: {minimum: 5, maximum: 120}, on: :update, allow_blank: true
+  validates :admin, :inclusion => {:in => [0,1]}
 
   before_save :encrypt_password
   after_save :clear_password

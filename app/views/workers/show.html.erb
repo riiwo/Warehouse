@@ -1,0 +1,20 @@
+<% content_for :content do %>
+    <div class="panel-heading"><%= @worker[:username] %></div>
+    <div class="panel-body">
+      <h1>Username: <%= @worker[:username] %></h1>
+      <h3>Email: <%= @worker[:email] %></h3>
+      <% if @worker[:admin] == 0 %>
+          <h4>User level: User</h4>
+      <% end %>
+      <% if @worker[:admin] == 1 %>
+          <h4>User level: Admin</h4>
+      <% end %>
+      <% if @worker[:admin] == 2 %>
+          <h4>User level: Super Admin</h4>
+      <% end %>
+      <% if session[:admin] == 2 || session[:admin] > @worker[:admin] || session[:worker_id] == @worker[:id]%>
+        <%= link_to 'Edit', edit_worker_path(@worker), :class => 'btn btn-block btn-warning'%>
+      <% end %>
+      <%= link_to 'Back', workers_path,:class => 'btn btn-block btn-info' %>
+    </div>
+<% end %>

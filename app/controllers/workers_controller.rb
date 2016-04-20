@@ -1,5 +1,6 @@
 class WorkersController < ApplicationController
   before_action :set_worker, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_worker
 
   # GET /workers
   def index
@@ -8,17 +9,20 @@ class WorkersController < ApplicationController
 
   # GET /workers/1
   def show
-    redirect_to '/workers'
   end
 
   # GET /workers/new
   def new
-    @worker = Worker.new
+    if session[:admin] == 0
+      redirect_to '/workers'
+    end
   end
 
   # GET /workers/1/edit
   def edit
-    redirect_to '/workers'
+    unless session[:admin] == 2 || session[:admin] > @worker[:admin] || session[:worker_id] == @worker[:id]
+      redirect_to @worker
+    end
   end
 
   # POST /workers
@@ -36,6 +40,9 @@ class WorkersController < ApplicationController
 
   # PATCH/PUT /workers/1
   def update
+    unless session[:admin] == 2 || session[:admin] > @worker[:admin] || session[:worker_id] == @worker[:id]
+      redirect_to @worker
+    end
     respond_to do |format|
       if @worker.update(worker_params)
         format.html { redirect_to @worker, notice: 'Worker was successfully updated.' }
@@ -47,7 +54,7 @@ class WorkersController < ApplicationController
 
   # DELETE /workers/1
   def destroy
-    if @worker[:admin] == 0
+    if (@worker[:admin] == 0 || (session[:admin] == 2 && @worker[:admin] == 1)) && session[:admin] != 0
       @worker.destroy
       respond_to do |format|
         format.html { redirect_to workers_url, notice: 'Worker was successfully destroyed.' }
@@ -75,6 +82,10 @@ class WorkersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def worker_params
-      params.fetch(:worker, {}).permit(:username, :email, :password ,:password_confirmation, :salt)
+      if session[:admin] == 2
+        params.fetch(:worker, {}).permit(:username, :email, :password ,:password_confirmation, :salt, :admin)
+      else
+        params.fetch(:worker, {}).permit(:username, :email, :password ,:password_confirmation, :salt)
+      end
     end
 end

@@ -9,6 +9,11 @@
           <h3>Price: <%= @product[:price] %></h3>
         </div>
       </div>
+      <ul>
+      <% @product.groups.each do |group| %>
+            <li><%=group.name%></li>
+      <% end %>
+      </ul>
       <%= link_to 'Edit', edit_product_path(@product), :class => 'btn btn-block btn-warning'%>
       <%= link_to 'Back', products_path,:class => 'btn btn-block btn-info' %>
     </div>

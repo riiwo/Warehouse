@@ -4,9 +4,13 @@
       <% @workers.each do |worker| %>
           <tr>
             <td colspan="5"><%= worker[:username] %> (<%= worker[:email] %>)</td>
-            <td colspan="1">
-              <% if worker[:admin] == 0 %>
-                <%= link_to 'Destroy', worker_path(worker[:id]), 'data-method' => :delete, :class => 'btn btn-danger pull-right margin-left-10', :confirm => 'Are you sure ?' %>
+            <td colspan="1" class="multi-button">
+              <%= link_to 'Show', worker, {:class => 'btn btn-info pull-right'} %>
+              <% if worker[:admin] <= session[:admin]  %>
+                <%= link_to 'Edit', edit_worker_path(worker), {:class => 'btn btn-warning pull-right'} %>
+              <% end %>
+              <% if (worker[:admin] == 0 || (session[:admin] == 2 && worker[:admin] == 1)) && session[:admin] != 0  %>
+                <%= link_to 'Destroy', worker_path(worker[:id]), 'data-method' => :delete, :class => 'btn btn-danger pull-right', :confirm => 'Are you sure ?' %>
               <% end %>
             </td>
           </tr>

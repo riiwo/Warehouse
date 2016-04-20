@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
 
-  before_filter :authenticate_worker, :except => [:login, :try_login, :logout]
+  before_filter :authenticate_worker, :except => [:index, :login, :try_login, :logout]
   before_filter :save_login_state, :only => [:try_login]
 
   def index
@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
 
   def logout
     session[:worker_id] = nil
+    session[:admin] = nil
     redirect_to :action => 'login'
   end
 
@@ -51,6 +52,7 @@ class ApplicationController < ActionController::Base
     authorized_worker = Worker.authenticate(params[:username_or_email],params[:login_password])
     if authorized_worker
       session[:worker_id] = authorized_worker.id
+      session[:admin] = authorized_worker.admin
       flash[:success] = "Wow Welcome again, you logged in as #{authorized_worker.username}"
       render 'index'
     else

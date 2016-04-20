@@ -7,4 +7,4 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 salt = BCrypt::Engine.generate_salt
 password_encrypted = BCrypt::Engine.hash_secret('admin', salt)
-Worker.new(username: 'admin', admin: 1, email: 'admin@admin.org', password_encrypted: password_encrypted, salt: salt).save(validate: false)
+Worker.new(username: 'admin', admin: 2, email: 'admin@admin.org', password_encrypted: password_encrypted, salt: salt).save(validate: false)

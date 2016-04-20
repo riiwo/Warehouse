@@ -1,0 +1,118 @@
+<div class="click-finder">
+  <input type="hidden" value="<%=@product[:id]%>" id="cur_prod">
+  <h3>In Group:</h3>
+  <div class="scroll-table" id="in-list">
+
+  </div>
+  <h3>Available groups:</h3>
+  <div class="scroll-table" id="out-list">
+
+  </div>
+</div>
+<br>
+<script type="text/javascript">
+  var List = function(direction) {
+    this.id=direction;
+    this.htmlElem = direction+'-list';
+    this.groups = [];
+    this.addGroup = function(group, send) {
+      this.groups[group.id] = group;
+      if (this.id == 'in' && send) {
+        this.ajaxGroupAction(group, 'add');
+      }
+    };
+    this.removeGroup = function(group) {
+      var i = this.groups.indexOf(group.id);
+      if (this.id == 'in') {
+        this.ajaxGroupAction(group, 'remove');
+      }
+      if(i != -1) {
+        this.groups.splice(i, 1);
+      }
+    };
+    this.addRenderGroup = function(group) {
+      $('#'+this.htmlElem).append(group.htmlDiv);
+    };
+    this.removeRenderGroup = function(group) {
+      $('#'+this.htmlElem).find('#'+group.htmlElement).remove();
+    };
+    this.ajaxGroupAction = function(group, action) {
+      $.ajax({
+        type: "POST",
+        url: "/"+action+"_group",
+        data: {group_ID : group.id, product_ID : $('#cur_prod').val()},
+        success: function(data) {
+          if (action == 'add')
+            alert('Group added to product successfully');
+          else
+            alert('Group removed from product successfully');
+        }, error: function(data) {
+            alert('Something went wrong, please refresh!');
+        }
+      });
+    };
+  };
+  var Group = function(id, name) {
+    this.id = id;
+    this.name = name;
+    this.htmlDiv = '<div class="item" id="item-'+id+'">'+name+'<button type="button" class="move btn btn-warning pull-right" id="'+id+'">Move</button></div>';
+    this.htmlElement = 'item-'+id;
+  };
+  function changeList(group, from_list, to_list) {
+    from_list.removeGroup(group);
+    from_list.removeRenderGroup(group);
+    to_list.addGroup(group, true);
+    to_list.addRenderGroup(group);
+  }
+  $(document).ready(function() {
+    inList = new List('in');
+    outList = new List('out');
+    groups = [];
+    $.ajax({
+      type: "POST",
+      url: "/get_all_other_groups",
+      data: {product_ID : $('#cur_prod').val()},
+      success:function (data) {
+        $.each( data, function( key, value ) {
+          var group = new Group(value.id, value.name);
+          outList.addGroup(group, false);
+          outList.addRenderGroup(group);
+          groups[group.id] = group;
+        });
+        return false;
+      }, error:function() {
+        alert('Something went wrong, please refresh!');
+        return false;
+      }
+    });
+    $.ajax({
+      type: "POST",
+      url: "/get_groups",
+      data: {product_ID : $('#cur_prod').val()},
+      success:function (data) {
+        $.each( data, function( key, value ) {
+          var group = new Group(value.id, value.name);
+          inList.addGroup(group, false);
+          inList.addRenderGroup(group);
+          groups[group.id] = group;
+        });
+        return false;
+      }, error:function() {
+        alert('Something went wrong, please refresh!');
+        return false;
+      }
+    });
+    $('.click-finder').on('click', '.move', function() {
+      var group = groups[$(this).attr('id')];
+      var out_or_in = $(this).parent().parent().attr('id');
+      if (out_or_in == 'out-list') {
+        var from = outList;
+        var to = inList;
+      } else {
+        from = inList;
+        to = outList;
+      }
+      changeList( group, from, to);
+    });
+  });
+</script>

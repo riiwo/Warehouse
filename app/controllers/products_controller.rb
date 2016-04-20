@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_worker
 
   # GET /products
   def index
@@ -17,7 +18,6 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
-    @groups = @product[:groups]
   end
 
   # POST /products
@@ -53,10 +53,38 @@ class ProductsController < ApplicationController
     end
   end
 
+  def get_groups
+    product = Product::where(:id => params[:product_ID]).first
+    @groups = product.groups
+    respond_to do |format|
+      format.json { render json: @groups }
+    end
+  end
+  def get_all_other_groups
+    product = Product::where(:id => params[:product_ID]).first
+    ids = product.groups.select(:id)
+    @groups = Group.where.not(id:  ids);
+    respond_to do |format|
+      format.json { render json: @groups }
+    end
+  end
   def add_group
-    @product = Product::where(:id => params[:product_ID]).first
+    product = Product::where(:id => params[:product_ID]).first
     group = Group::where(:id => params[:group_ID]).first
-    @product.groups << group
+    product.groups << group unless product.groups.include?(group)
+    product.save
+    respond_to do |format|
+      format.json { render json: '{}' }
+    end
+  end
+  def remove_group
+    product = Product::where(:id => params[:product_ID]).first
+    @group = Group::where(:id => params[:group_ID]).first
+    product.groups.delete(@group)
+    product.save
+    respond_to do |format|
+      format.json { render json: @group }
+    end
   end
 
   private

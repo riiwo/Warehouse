@@ -8,9 +8,10 @@ Rails.application.routes.draw do
   post '/login'  => 'application#try_login'
   post '/add_group'  => 'products#add_group'
   post '/remove_group'  => 'products#remove_group'
+  post '/get_groups' => 'products#get_groups'
+  post '/get_all_other_groups' => 'products#get_all_other_groups'
 
 
-  resources :roles
   resources :products
   resources :workers
   resources :groups

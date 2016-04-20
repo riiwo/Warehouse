@@ -1,5 +1,14 @@
 <% content_for :content do %>
-  <h1 class="text-center">Hello</h1>
-  <br>
-  <h2 class="text-center">Welcome to Warehouse</h2>
+
+    <div class="panel-heading"><h2 class="text-center">Welcome to Warehouse</h2></div>
+    <div class="panel-body">
+      <br>
+      <p class="text-center">Before you start please run 'rake db:seed' command to get access to Super Admin. (u:admin, p:admin)</p>
+      <br>
+      <p class="text-center">In this application no user can sign up by themselves, only can be created through admin user and later they can change their email, password.</p>
+      <p class="text-center">Super Admin can change user roles, delete all users(not himself) and assign new Admins.</p>
+      <p class="text-center">Admins can delete regular users but not Admins or Super Admin</p>
+      <br>
+      <p class="text-center">Other privileges are same for all users: they can add, remove, edit Groups and Products.</p>
+    </div>
 <% end %>

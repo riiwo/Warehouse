@@ -7,6 +7,10 @@
     <br>
     <%= f.password_field :password_confirmation, :placeholder => 'Confirm Password', class: 'form-control'%>
     <br>
+    <% if session[:admin] && session[:admin] == 2 && @worker[:admin] != 2 %>
+        <%= f.select :admin, options_for_select([['User', 0], ['Admin',1]], @worker['admin']),{}, {class: 'form-control'} %>
+        <br>
+    <% end %>
   <% if @worker.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@worker.errors.count, "error") %> prohibited this worker from being saved:</h2>

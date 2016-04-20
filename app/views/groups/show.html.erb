@@ -1,7 +1,47 @@
 <% content_for :content do %>
     <div class="panel-heading"><%= @group[:name] %></div>
     <div class="panel-body">
-      <h1><%= @group[:name] %></h1>
+      <% if @group.products.count > 0 %>
+        <h2><%= @group[:name] %> has products:</h2>
+        <div class="row">
+        <% @group.products.each do |product| %>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="image-wrapper">
+                  <img src="<%= product[:img] %>" alt="<%= product[:name] %>">
+                </div>
+                <div class="caption">
+                  <h3 class="text-center"><%= product[:name] %></h3>
+                  <p class="text-center"><%= product[:price]/100 %> EUR</p>
+                  <br>
+                  <% if product.groups.count > 0 %>
+                      <p class="text-center"> Belongs to groups</p>
+                      <div class="groups-wrapper">
+                        <ul>
+                          <% product.groups.each do |group| %>
+                              <li><%=group.name%></li>
+                          <% end %>
+                        </ul>
+                      </div>
+                  <% else %>
+                      <p class="text-center">Doesn't belong to group.</p>
+                      <div class="groups-wrapper">
+                      </div>
+                  <%end%>
+                  <br>
+                  <div class="btn-group btn-group-justified" role="group">
+                    <%= link_to 'Show', product, {:class => 'btn btn-info'} %>
+                    <%= link_to 'Edit', edit_product_path(product), {:class => 'btn btn-warning'} %>
+                    <%= link_to 'Destroy', product_path(product.id), 'data-method' => :delete, :class => 'btn btn-danger', :confirm => 'Are you sure ?' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <% end %>
+        </div>
+      <% else %>
+          <h2><%= @group[:name] %> doesn't have products</h2>
+      <% end %>
       <%= link_to 'Edit', edit_group_path(@group), :class => 'btn btn-block btn-primary' %>
       <%= link_to 'Back', groups_path, :class => 'btn btn-block btn-info' %>
     </div>

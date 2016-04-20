@@ -6,10 +6,29 @@
         <% @products.each do |product| %>
         <div class="col-sm-6 col-md-4">
           <div class="thumbnail">
-            <img src="<%= product[:img] %>" alt="<%= product[:name] %>">
+            <div class="image-wrapper">
+              <img src="<%= product[:img] %>" alt="<%= product[:name] %>">
+            </div>
             <div class="caption">
               <h3 class="text-center"><%= product[:name] %></h3>
               <p class="text-center"><%= product[:price]/100 %> EUR</p>
+              <br>
+
+              <% if product.groups.count > 0 %>
+                  <p class="text-center"> Belongs to groups</p>
+                  <div class="groups-wrapper">
+                    <ul>
+                  <% product.groups.each do |group| %>
+                      <li><%=group.name%></li>
+                  <% end %>
+                    </ul>
+                  </div>
+              <% else %>
+                  <p class="text-center">Doesn't belong to group.</p>
+                  <div class="groups-wrapper">
+
+                  </div>
+              <%end%>
               <br>
               <div class="btn-group btn-group-justified" role="group">
                 <%= link_to 'Show', product, {:class => 'btn btn-info'} %>
